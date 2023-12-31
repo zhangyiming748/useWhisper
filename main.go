@@ -18,10 +18,10 @@ func init() {
 	setLog()
 }
 func main() {
-	root := util.GetVal("srt", "dir")
-	level := util.GetVal("model", "level")
-	location := util.GetVal("model", "dir")
-	language := util.GetVal("model", "language")
+	root := util.GetVal("Whisper", "srt")
+	level := util.GetVal("Whisper", "level")
+	location := util.GetVal("Whisper", "location")
+	language := util.GetVal("Whisper", "language")
 	files := GetFileInfo.GetAllFileInfo(root, "mp4")
 	for _, file := range files {
 		slog.Info("文件", slog.String("文件名", file.FullPath))

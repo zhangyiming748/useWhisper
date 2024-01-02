@@ -10,6 +10,8 @@
 
 ```shell
 pip install -U openai-whisper
+或者
+pip install -U openai-whisper --break-system-packages
 ```
 也可以从github代码仓库pull安装（需要安装git）
 
@@ -37,7 +39,7 @@ Whisper xxxx.wav --model large-v2 --model_dir D:\WhisperModels\models_OpenAI --l
 ```
 
                                 以上命令指定了处理某个音频文件，指定模型为large-v2，指定了模型文件所在的目录，指定了语言为 中文，并指定了处理设备为 **英伟达GPU（cuda）**。但是我们并未指定输出文件，所以该命令运行后程序会输出所有格式，包括：json、srt字幕、txt等等，输出目录将会在当前工作目录下。
-
+    
                                 不指定模型文件路径的时候，**Whisper**    会去下列路径寻找模型文件：  
 
 ```shell
@@ -45,17 +47,17 @@ C:\user\xxxx\.cache\whisper
 ```
 
                                 如果该路径下也没有模型文件，则 **Whisper**    将自行下载模型文件 (龟速警告)。  
-
+    
                                 如果不会使用命令行工具那么可能上述版本模型对友友来说没啥用。  
-
+    
                                 **Whisper** 网络的参数量已然很大，模型的大小本身也有 **3G**    上下，占用显存则更多，所以 **10****G**    以下显存在运行 **pytorch** 版的 **Whisper**    时可能存在一定困难。下面介绍 **Whisper**    的    **ggml**    版本也就是 **Whisper.cpp ，**是 **Whisper**    的 C++ 实现，且进行了GUI封装，具备窗口界面（其实就是 **WhisperDesktop**    项目）。
-
+    
                             模型选择使用也放在下面板块进行说明。
 
 ## Whisper.cpp 模型及使用
 
                                 由于以上版本的 **Whisper** 基本依赖于命令行运行，所以有了各种封装软件，比如 **Buzz** 等。我使用的是 **WhisperDesktop**，是使用 **Whisper.cpp** 项目所提供的 **ggml**    格式模型运行的    **Whisper**    版本。  
-
+    
                          **WhisperDesktop**    主页：  
 
 ```shell
@@ -89,13 +91,13 @@ https://github.com/Const-me/Whisper
 ![](https://i0.hdslb.com/bfs/article/watermark/ae671061ceba1264671004322d0d99793184978f.jpg@1256w_566h_!web-article-pic.avif)
 
                                 在这里选择好从度盘下载下来的模型文件，模型文件后缀带有 “en” 的是纯英文模型，为单独英语模型，除英文外其余语言不应选用该种模型，而应该选择多模态模型（多模态模型也能处理英文）。
-
+    
                                 模型越大对显存要求就也越大，速度也越慢：
 
 ![](https://i0.hdslb.com/bfs/article/watermark/213c61b5c83194bf6737abecd9d3826d77030f47.jpg@1256w_672h_!web-article-pic.avif)
 
                                 请根据自己的设备以及实际转换需求选择模型（Whisper.cpp 版本对显存的需求低得多，最大的 large 模型也只需要5个G左右显存，pytorch版本使用 large 模型则需要接近10G    显存！）。越大的模型加载越需要时间，一般一分钟左右即可。  
-
+    
                                 如果有多块显卡可以在 **Advance** 选项中进行设置  
 
 **选好模型之后点 ok 我们进入下一步**
@@ -109,7 +111,7 @@ https://github.com/Const-me/Whisper
 **关于各种模型：**
 
                                 由于两种不同版本的 **Whisper** 只是实现不同，模型格式虽然不一样但是内容完全一样，因此在这里同一说明各种模型文件之间的差异。
-
+    
                                 OpenAI 官方给出的各种模型的大小和性能比较：
 
 ![](https://i0.hdslb.com/bfs/article/dfe366e1c3e1b429e792352e18326f77c64c1adb.png@1256w_530h_!web-article-pic.avif)
@@ -117,7 +119,7 @@ https://github.com/Const-me/Whisper
 图片来自: https://sspai.com/post/75953#!
 
                                 但事实上，官方没有对文档进行更新，目前的 **large 模型已经达到了接近3GB**    大小，其显存要求可能也会更高（原本的 **large** 模型预计的显存使用就已经达到10GB......），**medium 模型的大小也已经达到 1.4GB。**计算机性能有限的各位朋友还是优先考虑使用    **Whisper.cpp**    版本吧。
-
+    
                                 中文环境下的各种模型比较
 
 ![](https://i0.hdslb.com/bfs/article/watermark/b741a4ead4752c506adf1f083bd155eff14416f0.jpg@1256w_330h_!web-article-pic.avif)
@@ -142,9 +144,9 @@ large-v2 1 00:00:00,000 --> 00:00:02,000 第十一集 2 00:00:02,000 --> 00:00:2
 ```
 
                                 开头的“第十一集 我爱你” 我估计是它幻听了......  
-
+    
                                 成功识别出了音乐内容，并自动添加了 “词曲:李宗盛” 这样的音乐信息，虽然是错的。  
-
+    
                                 其他模型的效果也一并放在下面  
 
 ```javascript
@@ -152,7 +154,7 @@ large-v1 1 00:00:00,000 --> 00:00:02,000 作曲:陈晓明 2 00:00:02,000 --> 00:
 ```
 
                                 陈晓明又是谁。。。。  
-
+    
                                 medium 中等模型转写效果如下：  
 
 ```javascript
@@ -170,7 +172,7 @@ small 1 00:00:00,000 --> 00:00:02,000 (字幕制作:贝尔) 2 00:00:02,000 --> 0
 ```
 
                                 没有添加音频信息，说明已经不再对场景和语义做考虑，质量逐渐粗糙。可能针对纯英文内容效果会好很多。  
-
+    
                                 时间居然和 **medium** 模型差不多  
 
 时间 22秒
@@ -186,7 +188,7 @@ base 1 00:00:00,000 --> 00:00:02,000 作词:李宇作曲:李宇 2 00:00:03,000 -
 用时 4.5秒
 
                                 最后是 **tiny**    模型：
-
+    
                                 emmm **tiny**    模型在    **WhisperDesktop** 上的运行未输出结果，我们去命令行进行识别：  
 
 ```javascript
@@ -204,7 +206,7 @@ tiny [00:30.000 --> 00:35.700] 愿光 把天空照亮 [00:35.700 --> 00:41.600] 
 ```
 
                                 这里提供一个 **ffmpeg** 的文件，不需要安装，解压之后将 **ffmpeg**    文件夹放到某个路径下，然后将 “XXXX\\ffmpeg\\bin” 目录添加到系统环境变量中去即可。
-
+    
                                 在控制台输入：  
 
 ```shell
@@ -216,9 +218,9 @@ ffmpeg -version
 ffmpeg 版本信息
 
                                 **音视频转换工具：**  
-
+    
                                 这里面还包含一个可以用来进行视频音频格式转换的工具，可以使用这个工具将视频中的音频提取出来然后再放进 **Whisper**    中进行识别转写，从而实现字幕制作。这个工具也是依赖于 **ffmpeg** 的。  
-
+    
                                 **OpenAI 和 Whisper.cpp    的模型格式转换工具：**
 
 ```javascript

@@ -10,10 +10,6 @@ import (
 	"os/exec"
 )
 
-const (
-	CONF = "./conf.ini"
-)
-
 func init() {
 	setLog()
 }

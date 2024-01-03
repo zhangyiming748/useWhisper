@@ -9,6 +9,7 @@ import (
 	"log/slog"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 const (
@@ -20,16 +21,25 @@ func init() {
 	sql.SetEngine()
 }
 func main() {
+	prompt := "Generate a separate line of subtitles for each sentence"
 	root := util.GetVal("Whisper", "srt")
 	level := util.GetVal("Whisper", "level")
 	location := util.GetVal("Whisper", "location")
 	language := util.GetVal("Whisper", "language")
+	if language == "English" {
+		prompt = strings.Join([]string{prompt, "This is a purely English adult movie"}, ".")
+		prompt = strings.Join([]string{prompt, "Break sentences at each period position and generate a separate line of subtitles"}, ".")
+	} else if language == "Japanese" {
+		prompt = strings.Join([]string{prompt, "This is a purely Japanese adult movie"}, ".")
+	} else {
+		slog.Debug(fmt.Sprint(language))
+	}
 	files := GetFileInfo.GetAllFileInfo(root, "mp4")
 	for _, file := range files {
 		slog.Info("文件", slog.String("文件名", file.FullPath))
 		//whisper true.mp4 --model base --language English --model_dir /Users/zen/Whisper --output_format srt
 		//cmd := exec.Command("whisper", file.FullPath, "--model", level, "--model_dir", location, "--language", language, "--output_dir", root, "--verbose", "True")
-		cmd := exec.Command("whisper", file.FullPath, "--model", level, "--model_dir", location, "--output_format", "srt", "--initial_prompt", "保证意思完整性的前提下尽量多断句", "--language", language, "--output_dir", root, "--verbose", "True")
+		cmd := exec.Command("whisper", file.FullPath, "--model", level, "--model_dir", location, "--output_format", "srt", "--prepend_punctuations", ".?", "--language", language, "--output_dir", root, "--verbose", "True")
 		err := util.ExecCommand(cmd)
 		if err != nil {
 			slog.Error("当前字幕生成错误", slog.String("命令原文", fmt.Sprint(cmd)), slog.String("错误原文", err.Error()))

@@ -16,6 +16,7 @@ func init() {
 	sql.SetEngine()
 }
 func main() {
+	util.ExitAfterRun()
 	root := util.GetVal("Whisper", "srt")
 	level := util.GetVal("Whisper", "level")
 	location := util.GetVal("Whisper", "location")

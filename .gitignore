@@ -1,4 +1,6 @@
 .DS_Store
+*.ytdl
+*.part
 *.exe
 *.exe~
 *.dll
@@ -10,7 +12,9 @@
 *.log
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
-
+*.db
+*.mp4
+*.srt
 # Dependency directories (remove the comment below to include it)
 # vendor/
 

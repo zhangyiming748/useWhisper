@@ -30,6 +30,8 @@ RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip3 install -U openai-whisper --break-system-packages
 RUN git clone https://github.com/zhangyiming748/useWhisper.git /root/useWhisper
 WORKDIR /root/useWhisper
+git checkout v0.0.2
+# git checkout -b branch_name tag_name
 # 准备软件
 CMD ["bash"]
 #docker build -t trans:v1 .

@@ -19,7 +19,7 @@ func main() {
 	util.ExitAfterRun()
 	root := "/srt"
 	level := "base"
-	location := "/root/module"
+	location := "/module"
 	language := os.Getenv("language")
 	if language == "" {
 		language = "en"
@@ -43,7 +43,7 @@ func setLog() {
 		AddSource: true,
 		Level:     slog.LevelDebug, // slog 默认日志级别是 info
 	}
-	file := "Process.log"
+	file := "Whisper.log"
 	logf, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0770)
 	if err != nil {
 		panic(err)

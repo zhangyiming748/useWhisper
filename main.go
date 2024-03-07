@@ -17,11 +17,14 @@ func init() {
 }
 func main() {
 	util.ExitAfterRun()
-	root := util.GetVal("Whisper", "srt")
-	level := util.GetVal("Whisper", "level")
-	location := util.GetVal("Whisper", "location")
-	language := util.GetVal("Whisper", "language")
-	files := GetFileInfo.GetAllFileInfo(root, "mp4")
+	root := "/srt"
+	level := "base"
+	location := "/root/module"
+	language := os.Getenv("language")
+	if language == "" {
+		language = "en"
+	}
+	files := GetFileInfo.GetAllFileInfo(root, "mp4;mp3")
 	for _, file := range files {
 		slog.Info("文件", slog.String("文件名", file.FullPath))
 		//whisper true.mp4 --model base --language English --model_dir /Users/zen/Whisper --output_format srt

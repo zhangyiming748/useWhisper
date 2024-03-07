@@ -14,6 +14,27 @@ permissions:
   # issues: write
 
 jobs:
+  dockerbuilder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pwd
+        run: pwd
+      - name: chdocker
+        run: git checkout docker
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: build
+        run: docker build -t whisper:latest .
+      # More assembly might be required: Docker logins, GPG, etc.
+      # It all depends on your needs.
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: workspace_artifacts
+          path: ${{ github.workspace }}
   goreleaser:
     runs-on: ubuntu-latest
     steps:
@@ -42,8 +63,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Your GoReleaser Pro key, if you are using the 'goreleaser-pro' distribution
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: workspace_artifacts
-          path: ${{ github.workspace }}
+      
